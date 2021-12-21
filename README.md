@@ -1,2 +1,2 @@
-# scrabble-search
+# scrabble-dictionary
 Search scrabble game words
