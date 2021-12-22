@@ -1,19 +1,20 @@
 package walaniam.scrabble.dictionary;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
+@RequiredArgsConstructor
 @Slf4j
 public class Dictionary {
 
+    private final Permutations permutations = new Permutations();
     private final Words words;
-    private final Permutations permutations;
 
-    public Dictionary(Words words) {
-        this.words = words;
-        this.permutations = new Permutations(words.getLongestWordLength());
+    public Set<String> findWords(String letters) {
+        return findWords(letters, null);
     }
 
     public Set<String> findWords(String letters, Integer wordLength) {
@@ -45,6 +46,10 @@ public class Dictionary {
         log.debug("{} words found in {} ms", result.size(), System.currentTimeMillis() - startTime);
 
         return result;
+    }
+
+    public List<String> findStartingWith(String prefix) {
+        return findStartingWith(prefix, null);
     }
 
     public List<String> findStartingWith(String prefix, Integer wordLength) {

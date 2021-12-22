@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +15,17 @@ import static walaniam.scrabble.dictionary.StringFunctions.TO_LOWERCASE;
 @RequiredArgsConstructor
 class Permutations {
 
-    private final int wordBufferSize;
-
     public Set<String> matchWithPermutations(String letters, int k, Words words) {
         return choosePermutations(TO_LOWERCASE.apply(letters).toCharArray(), k, words);
     }
 
     private Set<String> choosePermutations(char[] chars, int k, Words words) {
+
+        final int longestWord = words.getLongestWordLength();
+
+        if (longestWord < 1) {
+            return Collections.emptySet();
+        }
 
         final long startTime = System.currentTimeMillis();
 
@@ -40,10 +45,10 @@ class Permutations {
         if (log.isDebugEnabled()) {
             log.debug("Enumerating char sequence. Chars: "
                     + Arrays.toString(chars) + ", wordsBuffer size: "
-                    + wordBufferSize);
+                    + longestWord);
         }
 
-        enumerateCharSequence(chars, n, k, matched, new char[wordBufferSize], words);
+        enumerateCharSequence(chars, n, k, matched, new char[longestWord], words);
 
         if (words == null && numOfSearched != matched.size()) {
             throw new IllegalStateException("Expected number of permutations was " + numOfSearched
