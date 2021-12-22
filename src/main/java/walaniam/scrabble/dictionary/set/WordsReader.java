@@ -26,7 +26,6 @@ class WordsReader {
     };
 
     private final InputStream wordsStream;
-    private final Function<String, String> wordFunction;
 
     public void read(Consumer<String> consumer) throws IOException {
 
@@ -34,8 +33,6 @@ class WordsReader {
         int wordsLoaded = 0;
 
         log.debug("Loading words from stream...");
-
-        Function<StringBuilder, String> readWordComposedFunction = READ_BUFFER.andThen(wordFunction);
 
         try (BufferedReader br = new BufferedReader(readWithEncoding(wordsStream))) {
             final StringBuilder wordBuffer = new StringBuilder();
@@ -52,13 +49,13 @@ class WordsReader {
                     if (!Character.isWhitespace(c)) {
                         wordBuffer.append(c);
                     } else {
-                        consumer.accept(readWordComposedFunction.apply(wordBuffer));
+                        consumer.accept(READ_BUFFER.apply(wordBuffer));
                         wordsLoaded++;
                     }
                 }
             }
 
-            consumer.accept(readWordComposedFunction.apply(wordBuffer));
+            consumer.accept(READ_BUFFER.apply(wordBuffer));
             wordsLoaded++;
         }
 
