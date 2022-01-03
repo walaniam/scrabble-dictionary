@@ -8,5 +8,5 @@ InputStream wordsFile = ...;
 Words wordsSet = HashSetWords.open(wordsFile);
 Dictionary dictionary = new Dictionary(words);
 
-dictionary.findWords("hlleoowrld");
+Set<String> searchResult = dictionary.findWords("hlleoowrld");
 ```
