@@ -2,6 +2,7 @@ package walaniam.scrabble.dictionary.set;
 
 import com.google.common.collect.HashMultimap;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import walaniam.scrabble.dictionary.Words;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.function.Consumer;
 
 import static walaniam.scrabble.dictionary.StringFunctions.TO_LOWERCASE;
 
+@Slf4j
 @RequiredArgsConstructor
 public class HashSetWords implements Words {
 
@@ -46,7 +48,9 @@ public class HashSetWords implements Words {
 
     @Override
     public Collection<String> getWordsStartingWith(char c) {
-        return Collections.unmodifiableSet(byLetter.get(c));
+        Collection<String> result = Collections.unmodifiableSet(byLetter.get(c));
+        log.debug("Words starting with {}, count={}", c, result.size());
+        return result;
     }
 
     @Override

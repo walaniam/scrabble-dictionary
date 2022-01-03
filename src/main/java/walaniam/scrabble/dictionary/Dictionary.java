@@ -55,11 +55,10 @@ public class Dictionary {
     public List<String> findStartingWith(String prefix, Integer wordLength) {
 
         final long startTime = System.currentTimeMillis();
-        log.debug("Searching words starting with: {}", prefix);
+        log.debug("Searching words starting with: {} of length={}", prefix, wordLength);
 
         final List<String> result = new ArrayList<>();
         final char c = prefix.charAt(0);
-        final int prefixLength = prefix.length();
 
         final Collection<String> startingWithWords = words.getWordsStartingWith(c);
         if (startingWithWords != null) {
@@ -68,10 +67,6 @@ public class Dictionary {
                 if (word.startsWith(prefix)
                         && (wordLength == null || (wordLength != null && currentLength == wordLength))) {
                     result.add(word);
-                }
-                if (currentLength >= prefixLength
-                        && word.substring(0, prefixLength).compareTo(prefix) > 0) {
-                    break;
                 }
             }
         }
