@@ -49,17 +49,28 @@ class WordsReader {
                     if (!Character.isWhitespace(c)) {
                         wordBuffer.append(c);
                     } else {
-                        consumer.accept(READ_BUFFER.apply(wordBuffer));
-                        wordsLoaded++;
+                        if (consume(consumer, wordBuffer)) {
+                            wordsLoaded++;
+                        }
                     }
                 }
             }
 
-            consumer.accept(READ_BUFFER.apply(wordBuffer));
-            wordsLoaded++;
+            if (consume(consumer, wordBuffer)) {
+                wordsLoaded++;
+            }
         }
 
         log.debug("{} words loaded in {} ms", wordsLoaded, System.currentTimeMillis() - start);
+    }
+
+    private boolean consume(Consumer<String> consumer, StringBuilder buffer) {
+        String word = READ_BUFFER.apply(buffer);
+        if (word != null && word.length() > 0) {
+            consumer.accept(word);
+            return true;
+        }
+        return false;
     }
 
     private Reader readWithEncoding(InputStream input) throws IOException {
