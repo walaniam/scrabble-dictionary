@@ -30,6 +30,7 @@ class HashSetWordsTest {
             assertThat(words.getLongestWordLength()).isEqualTo(13);
             assertThat(words.getWordsStartingWith('a')).hasSize(50);
             assertThat(words.contains("abakan")).isTrue();
+            assertThat(words.contains("ABAKAN")).isTrue();
             assertThat(words.contains("żyzny")).isTrue();
         }
     }
